@@ -2,6 +2,7 @@
 #include "optional.h"
 
 #include <iostream>
+#include <cassert>
 
 optional<double> safe_root(double x);
 optional<double> safe_reciprocal(double x);
