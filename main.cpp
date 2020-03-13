@@ -1,7 +1,9 @@
 #include "either.h"
 #include "optional.h"
+#include "reader.h"
 
 #include <iostream>
+#include <string>
 #include <cassert>
 
 optional<double> safe_root(double x);
@@ -11,6 +13,8 @@ int m_int_bool_int(Either<int, bool> const &e);
 int m_int_bool_int_2(Either<int, bool> const &e);
 Either<int, bool> m_int_bool_either_1(int v);
 Either<int, bool> m_int_bool_either_2(int v);
+std::string function_1(int n);
+double function_2(std::string s);
 
 int main() {
     // Safe functions
@@ -53,6 +57,12 @@ int main() {
     assert(proof_coproduct_unique_1.getLeft() == 0);
     assert(proof_coproduct_unique_2.getLeft() == -1);
     assert(m_int_bool_int_2(proof_coproduct_unique_1) == m_int_bool_int_2(proof_coproduct_unique_2));
+
+    // Reader functor
+    auto reader_result_1 = fmap(toFunction(function_2), toFunction(function_1), 5);
+    auto reader_result_2 = fmap(toFunction(function_2), toFunction(function_1), 9);
+    assert(reader_result_1 == 0);
+    assert(reader_result_2 == 1.0);
 
     std::cout << "All tests passed." << "\n";
     return 0;
